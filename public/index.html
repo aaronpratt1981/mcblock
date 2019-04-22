@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+        <title>Maps Block</title>
+
+        <link rel="stylesheet" href="slds.css" />
+	</head>
+	<body>
+<article class="slds-card">
+  <div class="slds-card__header slds-grid">
+    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+      <div class="slds-media__body">
+        <h2>
+          <a href="javascript:void(0);" class="slds-card__header-link slds-truncate" title="[object Object]">
+            <span class="slds-text-heading_small">Update Tracking</span>
+          </a>
+        </h2>
+      </div>
+    </header>
+  </div>
+  <div class="slds-card__body slds-card__body_inner">
+  <div id="workspace">
+			<div class="slds-form-element">
+				<label class="slds-form-element__label" for="text-input-id-0">Tracking Code</label>
+				<div class="slds-form-element__control">
+					<input type="text" id="text-input-id-0" class="slds-input" placeholder="Your tracking code." />
+				</div>
+            </div>
+            <div id="editor-container">Hello friend</div>
+			
+</article>
+		
+<script src="blocksdk.js"></script>
+<script>
+  var sdk = new window.sfdc.BlockSDK();
+  sdk.getContent(function (content) {
+    document.getElementById('text-input-id-0').value = content;
+      var value = content;
+      console.log('getContent: ' + value);
+
+      function saveText() {
+          console.log('Inside 1st saveText');
+          var value = document.getElementById('text-input-id-0').value;
+          sdk.setContent(value);
+          console.log('Inside HTML' + value);
+          sdk.setSuperContent('<blockquote style="font-family:courier;">%%[ SET trackingID = \''  + value + '\' ]%%</blockquote>');
+
+          sdk.getData(function (data) {
+              console.log('Inside 1st getData');
+              var value = document.getElementById('text-input-id-0').value;
+              sdk.setData({
+                  content: value
+              });
+          });
+      }
+      window.setInterval(function(){
+          saveText();
+    }, 5000);
+  });
+
+
+</script>
+	</body>
+</html>
